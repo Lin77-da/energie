@@ -11,11 +11,11 @@ with st.sidebar:
 
 @st.cache_data
 def load_data_from_gdrive(file_id):
-    url = f"https://drive.google.com/file/d/1b_yXHGs5Ms4O3wmUrxTLAXiJPHLm2ZXS/view?usp=sharing"
+    url = f"https://drive.google.com/uc?id=1b_yXHGs5Ms4O3wmUrxTLAXiJPHLm2ZXS"
     return pd.read_csv(url)
 
 # Remplace ceci par ton propre ID Google Drive
-file_id = "1AbCDEfgHIJKlmnOpQRsTuvWXyz"
+file_id = "1b_yXHGs5Ms4O3wmUrxTLAXiJPHLm2ZXS"
 
 try:
     df_clean = load_data_from_gdrive(file_id)
