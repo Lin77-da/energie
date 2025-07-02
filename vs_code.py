@@ -9,8 +9,21 @@ with st.sidebar:
   st.markdown("Groupe Décembre 2024")
 
 
+@st.cache_data
+def load_data_from_gdrive(file_id):
+    url = f"https://drive.google.com/file/d/1b_yXHGs5Ms4O3wmUrxTLAXiJPHLm2ZXS/view?usp=sharing"
+    return pd.read_csv(url)
 
-df_clean=pd.read_csv("df_clean.csv")
+# Remplace ceci par ton propre ID Google Drive
+file_id = "1AbCDEfgHIJKlmnOpQRsTuvWXyz"
+
+try:
+    df_clean = load_data_from_gdrive(file_id)
+    st.success("✅ Données chargées depuis Google Drive.")
+except Exception as e:
+    st.error(f"❌ Erreur lors du chargement : {e}")
+  
+
 df_clean['renouvelable'] = df_clean[['eolien', 'solaire', 'hydraulique', 'pompage', 'bioenergies']].sum(axis=1)
 df_clean['non_renouvelable'] = df_clean[['thermique', 'nucleaire']].sum(axis=1)
 df_clean['production_totale'] = df_clean['renouvelable'] + df_clean['non_renouvelable']
