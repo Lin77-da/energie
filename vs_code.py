@@ -12,7 +12,7 @@ with st.sidebar:
 @st.cache_data
 def load_data_from_gdrive(file_id):
     url = f"https://drive.google.com/uc?id=1b_yXHGs5Ms4O3wmUrxTLAXiJPHLm2ZXS"
-    return pd.read_csv(url)
+    return pd.read_csv(url,sep=";")
 
 # Remplace ceci par ton propre ID Google Drive
 file_id = "1b_yXHGs5Ms4O3wmUrxTLAXiJPHLm2ZXS"
