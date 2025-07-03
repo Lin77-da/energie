@@ -7,7 +7,6 @@ import seaborn as sns
 with st.sidebar:
   st.title("Projet Energie")
   st.markdown("Groupe Décembre 2024")
-st.write("Colonnes du DataFrame:", df_clean.columns.tolist())
 
 @st.cache_data
 def load_data_from_gdrive(file_id):
