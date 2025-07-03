@@ -10,7 +10,7 @@ with st.sidebar:
 
 @st.cache_data
 def load_data_from_gdrive(file_id):
-    url = f"https://drive.google.com/file/uc?id=1DrZ7LbCuwBXmpqXCMZe8mbd3UF-Xbw6-"
+    url = f"https://drive.google.com/uc?id=1DrZ7LbCuwBXmpqXCMZe8mbd3UF-Xbw6-"
     return pd.read_csv(url,sep=";")
 
 file_id = "1DrZ7LbCuwBXmpqXCMZe8mbd3UF-Xbw6-"
