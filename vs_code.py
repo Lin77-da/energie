@@ -22,7 +22,6 @@ try:
 except Exception as e:
     st.error(f"❌ Erreur lors du chargement : {e}")
 
-st.write("Colonnes du DataFrame:", df_clean.columns.tolist())
   
 
 df_clean['renouvelable'] = df_clean[['eolien', 'solaire', 'hydraulique', 'pompage', 'bioenergies']].sum(axis=1)
