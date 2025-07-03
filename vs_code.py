@@ -10,10 +10,10 @@ with st.sidebar:
 
 @st.cache_data
 def load_data_from_gdrive(file_id):
-    url = f"https://drive.google.com/uc?id=1b_yXHGs5Ms4O3wmUrxTLAXiJPHLm2ZXS"
-    return pd.read_csv(url,sep=",")
+    url = f"https://drive.google.com/file/uc?id=1DrZ7LbCuwBXmpqXCMZe8mbd3UF-Xbw6-"
+    return pd.read_csv(url,sep=";")
 
-file_id = "1b_yXHGs5Ms4O3wmUrxTLAXiJPHLm2ZXS"
+file_id = "1DrZ7LbCuwBXmpqXCMZe8mbd3UF-Xbw6-"
 
 try:
     df_clean = load_data_from_gdrive(file_id)
