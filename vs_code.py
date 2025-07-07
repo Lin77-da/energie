@@ -21,9 +21,9 @@ try:
 except Exception as e:
     st.error(f"❌ Erreur lors du chargement : {e}")
 
-  
+print(df_clean.columns)
 
-df_clean['renouvelable'] = df_clean[['eolien', 'solaire', 'hydraulique', 'pompage', 'bioenergies']].sum(axis=1)
+#df_clean['renouvelable'] = df_clean[['eolien', 'solaire', 'hydraulique', 'pompage', 'bioenergies']].sum(axis=1)
 df_clean['non_renouvelable'] = df_clean[['thermique', 'nucleaire']].sum(axis=1)
 df_clean['production_totale'] = df_clean['renouvelable'] + df_clean['non_renouvelable']
 
