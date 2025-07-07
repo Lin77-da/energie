@@ -3,23 +3,42 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-
-with st.sidebar:
-  st.title("Projet Energie")
-  st.markdown("Groupe Décembre 2024")
-
-@st.cache_data
 from io import BytesIO
 import requests
-original_link = "https://drive.google.com/file/d/1DrZ7LbCuwBXmpqXCMZe8mbd3UF-Xbw6-/view?usp=drive_link"
-# File ID (from shared link)  (FILE NEEDS TO BE PUBLIC)
-file_id = "1DrZ7LbCuwBXmpqXCMZe8mbd3UF-Xbw6-"
-# Download CSV from Google Drive
-download_url = f"https://drive.google.com/uc?id={file_id}"
-response = requests.get(download_url)
-data = BytesIO(response.content)
-# Load the CSV file into a DataFrame
-df_clean = pd.read_csv(data)
+
+# Barre latérale
+with st.sidebar:
+    st.title("Projet Energie")
+    st.markdown("Groupe Décembre 2024")
+
+# Fonction pour charger les données avec cache
+@st.cache_data
+def load_data():
+    try:
+        file_id = "1DrZ7LbCuwBXmpqXCMZe8mbd3UF-Xbw6-"  # ID du fichier sur Google Drive
+        download_url = f"https://drive.google.com/uc?id={file_id}"
+        response = requests.get(download_url)
+
+        if response.status_code != 200:
+            st.error("Erreur lors du téléchargement du fichier.")
+            return None
+
+        data = BytesIO(response.content)
+        df = pd.read_csv(data)
+        return df
+    except Exception as e:
+        st.error(f"Une erreur est survenue : {e}")
+        return None
+
+# Chargement des données
+df_clean = load_data()
+
+# Affichage des données si le chargement a réussi
+if df_clean is not None:
+    st.subheader("Aperçu des données")
+    st.dataframe(df_clean.head())
+else:
+    st.warning("Les données n'ont pas pu être chargées.")
 
 
 #def load_data_from_gdrive(file_id):
