@@ -9,23 +9,36 @@ with st.sidebar:
   st.markdown("Groupe Décembre 2024")
 
 @st.cache_data
-def load_data_from_gdrive(file_id):
-    url = f"https://drive.google.com/uc?id=1DrZ7LbCuwBXmpqXCMZe8mbd3UF-Xbw6-"
-    return pd.read_csv(url,sep=',')
-
+from io import BytesIO
+import requests
+original_link = "https://drive.google.com/file/d/1DrZ7LbCuwBXmpqXCMZe8mbd3UF-Xbw6-/view?usp=drive_link"
+# File ID (from shared link)  (FILE NEEDS TO BE PUBLIC)
 file_id = "1DrZ7LbCuwBXmpqXCMZe8mbd3UF-Xbw6-"
+# Download CSV from Google Drive
+download_url = f"https://drive.google.com/uc?id={file_id}"
+response = requests.get(download_url)
+data = BytesIO(response.content)
+# Load the CSV file into a DataFrame
+df_clean = pd.read_csv(data)
 
-try:
-    df_clean = load_data_from_gdrive(file_id)
-    st.success("✅ Données chargées depuis Google Drive.")
-except Exception as e:
-    st.error(f"❌ Erreur lors du chargement : {e}")
 
-st.write(df_clean.columns.tolist())
+#def load_data_from_gdrive(file_id):
+    #url = f"https://drive.google.com/uc?id=1DrZ7LbCuwBXmpqXCMZe8mbd3UF-Xbw6-"
+    #return pd.read_csv(url,sep=',')
 
-#df_clean['renouvelable'] = df_clean[['eolien', 'solaire', 'hydraulique', 'pompage', 'bioenergies']].sum(axis=1)
-#df_clean['non_renouvelable'] = df_clean[['thermique', 'nucleaire']].sum(axis=1)
-#df_clean['production_totale'] = df_clean['renouvelable'] + df_clean['non_renouvelable']
+#file_id = "1DrZ7LbCuwBXmpqXCMZe8mbd3UF-Xbw6-"
+
+#try:
+    #df_clean = load_data_from_gdrive(file_id)
+    #st.success("✅ Données chargées depuis Google Drive.")
+#except Exception as e:
+    #st.error(f"❌ Erreur lors du chargement : {e}")
+
+#st.write(df_clean.columns.tolist())
+
+df_clean['renouvelable'] = df_clean[['eolien', 'solaire', 'hydraulique', 'pompage', 'bioenergies']].sum(axis=1)
+df_clean['non_renouvelable'] = df_clean[['thermique', 'nucleaire']].sum(axis=1)
+df_clean['production_totale'] = df_clean['renouvelable'] + df_clean['non_renouvelable']
 
 
 st.sidebar.title("Sommaire")
