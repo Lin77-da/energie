@@ -13,32 +13,27 @@ with st.sidebar:
 
 # Fonction pour charger les données avec cache
 @st.cache_data
-def load_data():
-    try:
-        file_id = "1DrZ7LbCuwBXmpqXCMZe8mbd3UF-Xbw6-"  # ID du fichier sur Google Drive
-        download_url = f"https://drive.google.com/uc?id={file_id}"
-        response = requests.get(download_url)
 
-        if response.status_code != 200:
-            st.error("Erreur lors du téléchargement du fichier.")
-            return None
+import subprocess
+import sys
 
-        data = BytesIO(response.content)
-        df = pd.read_csv(data)
-        return df
-    except Exception as e:
-        st.error(f"Une erreur est survenue : {e}")
-        return None
+try:
+    import gdown
+except ImportError:
+    # Si gdown n'est pas installé, l'importer en utilisant pip
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "gdown"])
 
-# Chargement des données
-df_clean = load_data()
+# Remplacez l'ID par le vôtre (tout ce qui se trouve entre /d/ et /view)
+# Par exemple avec https://drive.google.com/file/d/1ptwmJbk8ToMt4BvQeG5ni37IeNAOoAsb/view?usp=drive_link
+file_id = '1DrZ7LbCuwBXmpqXCMZe8mbd3UF-Xbw6-' # Remplacer par un fichier plus léger!
+url= f'https://drive.google.com/uc?id={file_id}'
 
-# Affichage des données si le chargement a réussi
-if df_clean is not None:
-    st.subheader("Aperçu des données")
-    st.dataframe(df_clean.head())
-else:
-    st.warning("Les données n'ont pas pu être chargées.")
+# Téléchargement du fichier csv
+gdown.download(url, 'df_clean.csv', quiet=True)
+
+# Chargement du fichier csv dans un dataframe
+df_clean = pd.read_csv('df_clean.csv')
+df_clean.head()
 
 
 #def load_data_from_gdrive(file_id):
